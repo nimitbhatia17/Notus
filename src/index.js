@@ -9,6 +9,7 @@ import "assets/styles/tailwind.css";
 
 import Admin from "layouts/Admin.js";
 import Auth from "layouts/Auth.js";
+import Classroom from "layouts/Classroom.js";
 
 // views without layouts
 
@@ -28,6 +29,7 @@ ReactDOM.render(
       <Route path='/profile' exact component={Profile} />
       <Route path='/' exact component={Index} />
       <Route exact path='/dashboard' component={Dashboard} />
+      <Route exact path='/classroom/:pos' component={Classroom} />
       {/* add redirect for first page */}
       <Redirect from='*' to='/' />
     </Switch>

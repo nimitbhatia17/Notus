@@ -10,10 +10,9 @@ export default function Sidebar() {
   const [collapseShow, setCollapseShow] = React.useState("hidden");
   const [classCodeEntered, setClassCodeEntered] = React.useState("");
   const [redirect, setRedirect] = React.useState(false);
-  const [classData, setclassData] = React.useState({
-  });
+  const [classData, setclassData] = React.useState({});
   function handleAddClass() {
-    console.log("addClass")
+    console.log("addClass");
     axios({
       method: "POST",
       withCredentials: true,
@@ -23,7 +22,7 @@ export default function Sidebar() {
       },
     }).then((res) => {
       const loadedData = res.data;
-      console.log(loadedData,"addclass");
+      console.log(loadedData, "addclass");
       if (res.status === 200) {
         setRedirect = true;
       }
@@ -44,41 +43,43 @@ export default function Sidebar() {
       url: "http://localhost:5000/dashboard",
     }).then((res) => {
       setclassData(res.data.details);
-    })
-  
+    });
   }, [classData.length]);
 
-  let toshow=null;
-  if(classData.classesEnrolled){
-      toshow=<ul>
-      {classData.classesEnrolled.map((item, index) => {
-        return (
-          <li className="items-center">
-            <Link
-              className={
-                "text-xs uppercase py-3 font-bold block " +
-                (window.location.href.indexOf("/admin/maps") !== -1
-                  ? "text-lightBlue-500 hover:text-lightBlue-600"
-                  : "text-blueGray-700 hover:text-blueGray-500")
-              }
-              to={"/studentclassroom/" + item.className}
-            >
-              <i
+  let toshow = null;
+  if (classData.classesEnrolled) {
+    toshow = (
+      <ul>
+        {classData.classesEnrolled.map((item, index) => {
+          return (
+            <li className='items-center'>
+              <Link
                 className={
-                  "fas fa-map-marked mr-2 text-sm " +
+                  "text-xs uppercase py-3 font-bold block " +
                   (window.location.href.indexOf("/admin/maps") !== -1
-                    ? "opacity-75"
-                    : "text-blueGray-300")
+                    ? "text-lightBlue-500 hover:text-lightBlue-600"
+                    : "text-blueGray-700 hover:text-blueGray-500")
                 }
-              ></i>{" "}
-              {item.className}
-            </Link>
-          </li>
-        );
-      })}
-    </ul>
+                key={index}
+                to={"/classroom/" + index}
+              >
+                <i
+                  className={
+                    "fas fa-map-marked mr-2 text-sm " +
+                    (window.location.href.indexOf("/admin/maps") !== -1
+                      ? "opacity-75"
+                      : "text-blueGray-300")
+                  }
+                ></i>{" "}
+                {item.className}
+              </Link>
+            </li>
+          );
+        })}
+      </ul>
+    );
   }
-  
+
   return (
     <>
       <nav className='md:left-0 md:block md:fixed md:top-0 md:bottom-0 md:overflow-y-auto md:flex-row md:flex-nowrap md:overflow-hidden shadow-xl bg-white flex flex-wrap items-center justify-between relative md:w-64 z-10 py-4 px-6'>

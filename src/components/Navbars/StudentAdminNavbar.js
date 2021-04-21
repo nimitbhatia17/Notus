@@ -19,7 +19,7 @@ export default function Navbar() {
       },
     }).then((res) => {
       const loadedData = res.data;
-      console.log(loadedData,"addclass");
+      console.log(loadedData, "addclass");
       if (res.status === 200) {
         setRedirect(true);
       }
@@ -36,7 +36,7 @@ export default function Navbar() {
   return (
     <>
       {/* Navbar */}
-      <nav className='absolute top-0 left-0 w-full z-10 bg-transparent md:flex-row md:flex-nowrap md:justify-start flex items-center p-4'>
+      <div className='absolute top-0 left-0 w-full z-10 bg-transparent md:flex-row md:flex-nowrap md:justify-start flex items-center p-4'>
         <div className='w-full mx-autp items-center flex justify-between md:flex-nowrap flex-wrap md:px-10 px-4'>
           {/* Brand */}
           <a
@@ -53,8 +53,11 @@ export default function Navbar() {
           >
             <div className='relative flex w-full flex-wrap items-stretch'>
               <span className='z-10 h-full leading-snug font-normal absolute text-center text-blueGray-300 absolute bg-transparent rounded text-base items-center justify-center w-8 pl-3 py-3'>
-              <i class="fa fa-plus-circle" aria-hidden="true" onClick={handleAddClass}></i>
-
+                <i
+                  class='fa fa-plus-circle'
+                  aria-hidden='true'
+                  onClick={handleAddClass}
+                ></i>
               </span>
               <input
                 type='text'
@@ -70,7 +73,7 @@ export default function Navbar() {
             <UserDropdown />
           </ul>
         </div>
-      </nav>
+      </div>
       {/* End Navbar */}
     </>
   );
