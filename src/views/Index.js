@@ -1,13 +1,34 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
 import IndexNavbar from "components/Navbars/IndexNavbar.js";
 import Footer from "components/Footers/Footer.js";
 
 export default function Index() {
+  const [isLoggedIn, setIsLoggedIn] = React.useState(false);
+  const [userData, setUserData] = React.useState({});
+  React.useEffect(() => {
+    axios({
+      method: "GET",
+      withCredentials: true,
+      url: "http://localhost:5000/user",
+    }).then((res) => {
+      const loadedData = res.data;
+      setUserData(loadedData);
+      setIsLoggedIn(true);
+    });
+  }, [userData.length]);
+
+  async function handleLogOut() {
+    await fetch("http://localhost:5000/logout", {
+      method: "GET",
+      credentials: "include",
+    });
+  }
   return (
     <>
-      <IndexNavbar fixed />
+      <IndexNavbar fixed status={isLoggedIn} />
       <section className='header relative pt-16 items-center flex h-screen max-h-860-px'>
         <div className='container mx-auto items-center flex flex-wrap'>
           <div className='w-full md:w-8/12 lg:w-6/12 xl:w-6/12 px-4'>
@@ -29,18 +50,41 @@ export default function Index() {
                 components for ReactJS, Vue and Angular.
               </p>
               <div className='mt-12'>
-                <Link
-                  target='_blank'
-                  className='get-started text-white font-bold px-6 py-4 rounded outline-none focus:outline-none mr-1 mb-1 bg-lightBlue-500 active:bg-lightBlue-600 uppercase text-sm shadow hover:shadow-lg ease-linear transition-all duration-150'
-                >
-                  Log in
-                </Link>
-                <Link
-                  className='github-star ml-1 text-white font-bold px-6 py-4 rounded outline-none focus:outline-none mr-1 mb-1 bg-blueGray-700 active:bg-blueGray-600 uppercase text-sm shadow hover:shadow-lg ease-linear transition-all duration-150'
-                  target='_blank'
-                >
-                  Sign Up
-                </Link>
+                {!isLoggedIn ? (
+                  <Link
+                    target='_blank'
+                    className='get-started text-white font-bold px-6 py-4 rounded outline-none focus:outline-none mr-1 mb-1 bg-lightBlue-500 active:bg-lightBlue-600 uppercase text-sm shadow hover:shadow-lg ease-linear transition-all duration-150'
+                    to='/auth/login'
+                  >
+                    Log in
+                  </Link>
+                ) : (
+                  <Link
+                    target='_blank'
+                    className='get-started text-white font-bold px-6 py-4 rounded outline-none focus:outline-none mr-1 mb-1 bg-lightBlue-500 active:bg-lightBlue-600 uppercase text-sm shadow hover:shadow-lg ease-linear transition-all duration-150'
+                    to='/admin/dashboard'
+                  >
+                    Dashboard
+                  </Link>
+                )}
+                {!isLoggedIn ? (
+                  <Link
+                    className='github-star ml-1 text-white font-bold px-6 py-4 rounded outline-none focus:outline-none mr-1 mb-1 bg-blueGray-700 active:bg-blueGray-600 uppercase text-sm shadow hover:shadow-lg ease-linear transition-all duration-150'
+                    target='_blank'
+                    to='/auth/register'
+                  >
+                    Sign Up
+                  </Link>
+                ) : (
+                  <Link
+                    target='_self'
+                    className='github-star ml-1 text-white font-bold px-6 py-4 rounded outline-none focus:outline-none mr-1 mb-1 bg-blueGray-700 active:bg-blueGray-600 uppercase text-sm shadow hover:shadow-lg ease-linear transition-all duration-150'
+                    to='/'
+                    onClick={handleLogOut}
+                  >
+                    Log out
+                  </Link>
+                )}
               </div>
             </div>
           </div>
