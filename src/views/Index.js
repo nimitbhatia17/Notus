@@ -29,7 +29,7 @@ export default function Index() {
   return (
     <>
       <IndexNavbar fixed status={isLoggedIn} />
-      <section className='header relative pt-16 items-center flex h-screen max-h-860-px'>
+      <section className='header relative pt-16 items-center flex h-screen max-h-860-px' style = {{backgroundColor : '#C7ECFA'}} >
         <div className='container mx-auto items-center flex flex-wrap'>
           <div className='w-full md:w-8/12 lg:w-6/12 xl:w-6/12 px-4'>
             <div className='pt-32 sm:pt-0'>
@@ -91,13 +91,14 @@ export default function Index() {
         </div>
 
         <img
-          className='absolute top-0 b-auto right-0 pt-16 sm:w-6/12 -mt-48 sm:mt-0 w-10/12 max-h-860px'
-          src={require("assets/img/pattern_react.png").default}
+          width='400px'
+          className='absolute top-0 b-auto right-0 pt-16 sm:w-6/12 -mt-48 sm:mt-0 w-10/12 max-h-600px'
+          src={require("assets/img/learning.gif").default}
           alt='...'
         />
       </section>
 
-      <section className='mt-48 md:mt-40 pb-40 relative bg-blueGray-100'>
+      <section className='mt-48 md:mt-40 pb-40 relative bg-blueGray-100' style = {{backgroundColor : '#C7ECFA'}}>
         <div
           className='-mt-20 top-0 bottom-auto left-0 right-0 w-full absolute h-20'
           style={{ transform: "translateZ(0)" }}
@@ -111,10 +112,7 @@ export default function Index() {
             x='0'
             y='0'
           >
-            <polygon
-              className='text-blueGray-100 fill-current'
-              points='2560 0 2560 100 0 100'
-            ></polygon>
+            
           </svg>
         </div>
         <div className='container mx-auto'>
@@ -133,10 +131,7 @@ export default function Index() {
                     viewBox='0 0 583 95'
                     className='absolute left-0 w-full block h-95-px -top-94-px'
                   >
-                    <polygon
-                      points='-30,95 583,95 583,65'
-                      className='text-lightBlue-500 fill-current'
-                    ></polygon>
+                    
                   </svg>
                   <h4 className='text-xl font-bold text-white'>
                     Great for your awesome project
@@ -600,7 +595,7 @@ export default function Index() {
         </div>
       </section>
 
-      <section className='py-20 bg-blueGray-600 overflow-hidden'>
+      <section className='py-20 bg-blueGray-600 overflow-hidden' style = {{backgroundColor : '#C7ECFA'}}>
         <div className='container mx-auto pb-64'>
           <div className='flex flex-wrap justify-center'>
             <div className='w-full md:w-5/12 px-12 md:px-4 ml-auto mr-auto md:mt-64'>
@@ -657,10 +652,7 @@ export default function Index() {
             x='0'
             y='0'
           >
-            <polygon
-              className='text-blueGray-200 fill-current'
-              points='2560 0 2560 100 0 100'
-            ></polygon>
+            
           </svg>
         </div>
 
