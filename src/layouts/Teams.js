@@ -45,7 +45,7 @@ export default function Admin() {
       setTeamData(res.data.teamData);
       setType(res.data.type);
     });
-  }, [pos]);
+  }, []);
 
   function handleChange(event) {
     const name = event.target.name;
@@ -70,10 +70,7 @@ export default function Admin() {
         pos: pos,
       },
     }).then((res) => {
-      if (res.data.teamData) {
-        setTeamData(res.data.teamData);
-      } else {
-      }
+      console.log(res.data.msg);
     });
   }
 
@@ -88,11 +85,7 @@ export default function Admin() {
         pos: pos,
       },
     }).then((res) => {
-      if (res.data.teamData) {
-        setTeamData(res.data.teamData);
-        console.log(res.data.teamData);
-      } else {
-      }
+      console.log("ok");
     });
   }
 
@@ -146,7 +139,7 @@ export default function Admin() {
   }
 
   let toshowteam = null;
-
+  console.log(type, "type");
   if (type === 2 && teamData) {
     toshowteam = teamData.map((currentTeam, index) => (
       <Link to={"/classroom/" + pos + "/teams/" + index}>
@@ -264,7 +257,7 @@ export default function Admin() {
                             </div>
                           </div>
 
-                          {/* <div className='flex flex-wrap'>
+                          <div className='flex flex-wrap'>
                             <div className='w-full xl:w-8/12 mb-12 xl:mb-0 px-4'>
                               <div className='relative flex flex-col h-full min-w-0 break-words w-full mb-6 shadow-lg rounded bg-blueGray-700'>
                                 <div className='rounded-t mb-0 px-4 py-3 bg-transparent'>
@@ -333,7 +326,7 @@ export default function Admin() {
                                 </div>
                               </div>
                             </div>
-                          </div> */}
+                          </div>
                         </>
                       </>
                     ) : (
@@ -388,7 +381,7 @@ export default function Admin() {
                                 <button
                                   type='submit'
                                   className='text-white w-full bg-emerald-500 rounded mt-3 p-2'
-                                  onclick={handleJoinTeam}
+                                  onClick={handleJoinTeam}
                                 >
                                   JOIN
                                 </button>
