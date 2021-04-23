@@ -139,7 +139,7 @@ export default function Admin() {
   }
 
   let toshowteam = null;
-
+console.log(type,"type")
   if (type === 2 && teamData) {
     toshowteam = teamData.map((currentTeam, index) => (
       <Link to={"/classroom/" + pos + "/teams/" + index}>

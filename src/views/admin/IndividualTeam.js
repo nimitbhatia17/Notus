@@ -60,6 +60,25 @@ export default function Team(props) {
   }
   console.log(teacherChatData, "teacherchatdata");
 
+  let toshowteamcard=null;
+  if(teamData){
+    toshowteamcard=( <CardStats
+      statSubtitle={teamData.members.reduce(function (
+        total,
+        currentMember
+      ) {
+        return total + currentMember.firstName + " ";
+      },
+      "")}
+      statTitle={teamData.teamName}
+      statArrow='up'
+      statPercent={teamData.members.length}
+      statPercentColor='text-emerald-200'
+      statDescription='Members'
+      statIconName='far fa-calendar-minus'
+      statIconColor='bg-red-500'
+    />)
+  }
   return (
     <>
       <TeacherSidebar />
@@ -71,22 +90,7 @@ export default function Team(props) {
             <div>
               <div className='flex flex-wrap'>
                 <div className='w-full lg:w-11/12 xl:w-11/12 px-4 mb-5 '>
-                  <CardStats
-                    statSubtitle={teamData.members.reduce(function (
-                      total,
-                      currentMember
-                    ) {
-                      return total + currentMember.firstName + " ";
-                    },
-                    "")}
-                    statTitle={teamData.teamName}
-                    statArrow='up'
-                    statPercent={teamData.members.length}
-                    statPercentColor='text-emerald-200'
-                    statDescription='Members'
-                    statIconName='far fa-calendar-minus'
-                    statIconColor='bg-red-500'
-                  />
+                 {toshowteamcard}
                 </div>
               </div>
             </div>
