@@ -22,14 +22,18 @@ export default function Index() {
 
   async function handleLogOut() {
     await fetch("http://localhost:5000/logout", {
-      method: "GET",
+      method: "POST",
       credentials: "include",
     });
+    setIsLoggedIn(false);
   }
   return (
     <>
       <IndexNavbar fixed status={isLoggedIn} />
-      <section className='header relative pt-16 items-center flex h-screen max-h-860-px' style = {{backgroundColor : '#C7ECFA'}} >
+      <section
+        className='header relative pt-16 items-center flex h-screen max-h-860-px'
+        style={{ backgroundColor: "#C7ECFA" }}
+      >
         <div className='container mx-auto items-center flex flex-wrap'>
           <div className='w-full md:w-8/12 lg:w-6/12 xl:w-6/12 px-4'>
             <div className='pt-32 sm:pt-0'>
@@ -98,7 +102,10 @@ export default function Index() {
         />
       </section>
 
-      <section className='mt-48 md:mt-40 pb-40 relative bg-blueGray-100' style = {{backgroundColor : '#C7ECFA'}}>
+      <section
+        className='mt-48 md:mt-40 pb-40 relative bg-blueGray-100'
+        style={{ backgroundColor: "#C7ECFA" }}
+      >
         <div
           className='-mt-20 top-0 bottom-auto left-0 right-0 w-full absolute h-20'
           style={{ transform: "translateZ(0)" }}
@@ -111,9 +118,7 @@ export default function Index() {
             viewBox='0 0 2560 100'
             x='0'
             y='0'
-          >
-            
-          </svg>
+          ></svg>
         </div>
         <div className='container mx-auto'>
           <div className='flex flex-wrap items-center'>
@@ -130,9 +135,7 @@ export default function Index() {
                     xmlns='http://www.w3.org/2000/svg'
                     viewBox='0 0 583 95'
                     className='absolute left-0 w-full block h-95-px -top-94-px'
-                  >
-                    
-                  </svg>
+                  ></svg>
                   <h4 className='text-xl font-bold text-white'>
                     Great for your awesome project
                   </h4>
@@ -595,7 +598,10 @@ export default function Index() {
         </div>
       </section>
 
-      <section className='py-20 bg-blueGray-600 overflow-hidden' style = {{backgroundColor : '#C7ECFA'}}>
+      <section
+        className='py-20 bg-blueGray-600 overflow-hidden'
+        style={{ backgroundColor: "#C7ECFA" }}
+      >
         <div className='container mx-auto pb-64'>
           <div className='flex flex-wrap justify-center'>
             <div className='w-full md:w-5/12 px-12 md:px-4 ml-auto mr-auto md:mt-64'>
@@ -651,9 +657,7 @@ export default function Index() {
             viewBox='0 0 2560 100'
             x='0'
             y='0'
-          >
-            
-          </svg>
+          ></svg>
         </div>
 
         <div className='container mx-auto'>

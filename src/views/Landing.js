@@ -16,7 +16,8 @@ export default function Landing() {
           <div
             className='absolute top-0 w-full h-full bg-center bg-cover'
             style={{
-              backgroundColor:'#C7ECFA'}}
+              backgroundColor: "#C7ECFA",
+            }}
           >
             <span
               id='blackOverlay'
