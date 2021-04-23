@@ -1,6 +1,6 @@
 /*eslint-disable*/
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import axios from "axios";
 // components
 
@@ -8,11 +8,20 @@ import IndexDropdown from "components/Dropdowns/IndexDropdown.js";
 
 export default function Navbar(props) {
   const [navbarOpen, setNavbarOpen] = React.useState(false);
+  const [redirect, setRedirect] = React.useState(false);
+
   async function handleLogOut() {
     await fetch("http://localhost:5000/logout", {
-      method: "GET",
+      method: "POST",
       credentials: "include",
     });
+  }
+  function handleDashboard() {
+    setRedirect(true);
+  }
+
+  if (redirect) {
+    return <Redirect exact to='/admin/dashboard' />;
   }
 
   return (
@@ -78,6 +87,19 @@ export default function Navbar(props) {
                 </a>
               </li>
 
+              {props.status ? (
+                <li className='flex items-center'>
+                  <Link>
+                    <button
+                      onClick={handleDashboard}
+                      className='bg-lightBlue-500 text-white active:bg-lightBlue-600 text-xs font-bold uppercase px-4 py-2 rounded shadow hover:shadow-lg outline-none focus:outline-none lg:mr-1 lg:mb-0 ml-3 mb-3 ease-linear transition-all duration-150'
+                      type='button'
+                    >
+                      Dashboard
+                    </button>
+                  </Link>
+                </li>
+              ) : null}
               {props.status ? (
                 <li className='flex items-center'>
                   <Link>
