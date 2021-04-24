@@ -1,22 +1,14 @@
 import React from "react";
-import { Switch, Route, Redirect, Link, useParams } from "react-router-dom";
+import {  Link, useParams } from "react-router-dom";
 import axios from "axios";
 
 // components
 
 import ClassroomNavbar from "components/Navbars/TeacherClassroomNavbar.js";
-import TeacherSidebar from "components/Sidebar/TeacherSidebar.js";
-import FooterAdmin from "components/Footers/FooterAdmin.js";
+import ClassroomSidebar from "components/Sidebar/ClassroomSidebar.js";
 
 // views
-
-// import Dashboard from "views/admin/Dashboard.js";
-import Tables from "views/admin/Tables.js";
-// import Settings from "views/admin/Settings.js";
-// import Tables from "views/admin/Tables.js";
 import CardStats from "components/Cards/CardStats.js";
-// import CardAddAnnouncement from "components/Cards/CardAddAnnouncement.js";
-// import { directive } from "@babel/types";
 
 export default function Admin() {
   const [teamData, setTeamData] = React.useState(null);
@@ -188,7 +180,7 @@ console.log(type,"type")
     <>
       {type === 1 ? (
         <>
-          <TeacherSidebar />
+          <ClassroomSidebar />
           <div className='relative md:ml-64 bg-blueGray-100'>
             <ClassroomNavbar />
             <div className='relative bg-lightBlue-600 md:pt-32 pb-32 pt-12'>
@@ -223,7 +215,7 @@ console.log(type,"type")
                                   <div className='rounded-t mb-0 px-4 py-3 bg-transparent'>
                                     <div className='flex flex-wrap items-center'>
                                       <div className='relative w-full max-w-full flex-grow flex-1'>
-                                        <h6 className='uppercase text-blueGray-100 mb-1 text-xs font-semibold'></h6>
+                                        {/* <h6 className='uppercase text-blueGray-100 mb-1 text-xs font-semibold'></h6> */}
                                         <h2 className='text-white text-xl font-semibold'>
                                           Chat with Team
                                         </h2>
@@ -399,7 +391,7 @@ console.log(type,"type")
         </>
       ) : (
         <>
-          <TeacherSidebar />
+          <ClassroomSidebar />
           <div className='relative md:ml-64 bg-blueGray-100'>
             <ClassroomNavbar />
 
