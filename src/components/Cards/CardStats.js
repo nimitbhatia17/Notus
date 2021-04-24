@@ -1,7 +1,8 @@
 import React from "react";
-import PropTypes from "prop-types";
-
+import {Link,useParams} from "react-router-dom";
+import axios from "axios";
 export default function CardStats({
+  announcementPos,
   statSubtitle,
   statTitle,
   statPercent,
@@ -10,6 +11,21 @@ export default function CardStats({
   statIconName,
   statIconColor,
 }) {
+  const{pos}=useParams();
+  function handleClick(){
+    console.log("handle click of delete announcement ")
+    axios({
+      method:"GET",
+      withCredentials:true,
+      params:{
+        pos:pos,
+        announcementPos:announcementPos
+      },
+      url:"http://localhost:5000/deleteannouncement"
+    }).then((res)=>{
+      console.log("announcement deleted");
+    })
+  }
   return (
     <>
       <div className='relative flex flex-col min-w-0 break-words bg-white rounded mb-10 xl:mb-0 shadow-lg'>
@@ -30,7 +46,7 @@ export default function CardStats({
                   statIconColor
                 }
               >
-                <i className={statIconName}></i>
+                <Link onClick={handleClick} to={"/classroom/"+pos}><i className={statIconName}></i></Link>
               </div>
             </div>
           </div>

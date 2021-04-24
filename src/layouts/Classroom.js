@@ -114,12 +114,13 @@ export default function Admin() {
                     <div className='flex flex-wrap'>
                       <div className='w-full lg:w-11/12 xl:w-11/12 px-4 mb-5 '>
                         <CardStats
+                          announcementPos={index}
                           statSubtitle={currentAnnouncement.author.firstName}
                           statTitle={currentAnnouncement.text}
                           statArrow='up'
                           statPercent={currentAnnouncement.time}
                           statPercentColor='text-emerald-200'
-                          statIconName='far fa-calendar-minus'
+                          statIconName='fas fa-trash'
                           statIconColor='bg-red-500'
                         />
                       </div>
