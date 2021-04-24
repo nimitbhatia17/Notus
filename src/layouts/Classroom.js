@@ -1,25 +1,18 @@
 import React from "react";
-import { Switch, Route, Redirect, Link, useParams } from "react-router-dom";
+import {  useParams } from "react-router-dom";
 import axios from "axios";
 
 // components
 
 import StudentClassroomNavbar from "components/Navbars/StudentClassroomNavbar.js";
 import TeacherClassroomNavbar from "components/Navbars/TeacherClassroomNavbar.js";
-import StudentSidebar from "components/Sidebar/StudentSidebar.js";
-import TeacherSidebar from "components/Sidebar/TeacherSidebar.js";
-import FooterAdmin from "components/Footers/FooterAdmin.js";
+import ClassroomSidebar from "components/Sidebar/ClassroomSidebar.js";
 
 // views
 
-import Dashboard from "views/admin/Dashboard.js";
-import Maps from "views/admin/Maps.js";
-import Settings from "views/admin/Settings.js";
-import Tables from "views/admin/Tables.js";
 import CardStats from "components/Cards/CardStats.js";
 import CardClassTitle from "components/Cards/CardClassTitle.js";
 import CardAddAnnouncement from "components/Cards/CardAddAnnouncement.js";
-import { directive } from "@babel/types";
 
 export default function Admin() {
   const [classData, setclassData] = React.useState({});
@@ -50,7 +43,7 @@ export default function Admin() {
       <>
         {type === 1 ? (
           <>
-            <StudentSidebar />
+            <ClassroomSidebar />
             <div className='relative md:ml-64 bg-blueGray-100'>
               <StudentClassroomNavbar />
               <div className='relative bg-lightBlue-600 md:pt-32 pb-32 pt-12'>
@@ -93,7 +86,7 @@ export default function Admin() {
         ) : (
           <>
             {" "}
-            <TeacherSidebar />
+            <ClassroomSidebar />
             <div className='relative md:ml-64 bg-blueGray-100'>
               <TeacherClassroomNavbar />
 
@@ -121,12 +114,13 @@ export default function Admin() {
                     <div className='flex flex-wrap'>
                       <div className='w-full lg:w-11/12 xl:w-11/12 px-4 mb-5 '>
                         <CardStats
+                          announcementPos={index}
                           statSubtitle={currentAnnouncement.author.firstName}
                           statTitle={currentAnnouncement.text}
                           statArrow='up'
                           statPercent={currentAnnouncement.time}
                           statPercentColor='text-emerald-200'
-                          statIconName='far fa-calendar-minus'
+                          statIconName='fas fa-trash'
                           statIconColor='bg-red-500'
                         />
                       </div>
