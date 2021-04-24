@@ -5,7 +5,7 @@ import axios from "axios";
 // components
 
 import ClassroomNavbar from "components/Navbars/TeacherClassroomNavbar.js";
-import ClassroomSidebar from "components/Sidebar/ClassroomSidebar.js";
+import TeamSidebar from "components/Sidebar/TeamSidebar.js";
 
 // views
 import CardStats from "components/Cards/CardStats.js";
@@ -180,7 +180,7 @@ console.log(type,"type")
     <>
       {type === 1 ? (
         <>
-          <ClassroomSidebar />
+          <TeamSidebar />
           <div className='relative md:ml-64 bg-blueGray-100'>
             <ClassroomNavbar />
             <div className='relative bg-lightBlue-600 md:pt-32 pb-32 pt-12'>
@@ -391,7 +391,7 @@ console.log(type,"type")
         </>
       ) : (
         <>
-          <ClassroomSidebar />
+          <TeamSidebar />
           <div className='relative md:ml-64 bg-blueGray-100'>
             <ClassroomNavbar />
 

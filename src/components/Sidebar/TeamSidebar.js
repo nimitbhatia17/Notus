@@ -59,13 +59,14 @@ export default function Sidebar() {
     );
   }
   function handleClick(){
+      console.log("going to delete")
       axios({
           method:"GET",
           withCredentials:true,
           params:{
               pos:pos
           },
-          url:"http://localhost:5000/unenroll"
+          url:"http://localhost:5000/leaveteam"
       }).then((res)=>{
           console.log("succesfully unenrolled");
       })
@@ -220,7 +221,7 @@ export default function Sidebar() {
                       : "text-blueGray-700 hover:text-blueGray-500")
                   }
                   onClick={handleClick}
-                  to='/admin/dashboard'
+                  to={'/classroom/'+pos}
                 >
                   <i
                     className={
@@ -230,7 +231,7 @@ export default function Sidebar() {
                         : "text-blueGray-300")
                     }
                   ></i>{" "}
-                  Unenroll 
+                  Leave Team 
                 </Link>):(<Link
                   className={
                     "text-xs uppercase py-3 font-bold block " +

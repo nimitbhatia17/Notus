@@ -54,7 +54,7 @@ export default function Navbar() {
           </a>
           {/* Form */}
           <form
-            // onSubmit={handleSubmit}
+            onSubmit={handleSubmit}
             className='md:flex hidden flex-row flex-wrap items-center lg:ml-auto mr-3'
           >
             <div className='relative flex w-full flex-wrap items-stretch'>
