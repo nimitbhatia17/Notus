@@ -50,26 +50,22 @@ const UserDropdown = () => {
           "bg-white text-base z-50 float-left py-2 list-none text-left rounded shadow-lg min-w-48"
         }
       >
-        <Link to='/profile'>
-          <a
-            className={
-              "text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
-            }
-            onClick={(e) => e.preventDefault()}
-          >
-            View Profile
-          </a>
-        </Link>
-
-        <a
-          href='/'
+        <Link
           className={
             "text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
           }
-          onClick={(e) => e.preventDefault()}
+          to='/profile'
+        >
+          View Profile
+        </Link>
+        <Link
+          to='/'
+          className={
+            "text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
+          }
         >
           Home
-        </a>
+        </Link>
         <div className='h-0 my-2 border border-solid border-blueGray-100' />
         <a
           href='/'

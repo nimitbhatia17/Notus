@@ -1,10 +1,13 @@
 import React from "react";
 import axios from "axios";
+import ReactScrollableFeed from "react-scrollable-feed";
 import { useParams } from "react-router-dom";
 
 import ClassroomNavbar from "components/Navbars/TeacherClassroomNavbar.js";
 import TeacherSidebar from "components/Sidebar/TeacherSidebar.js";
 import CardStats from "components/Cards/CardStats.js";
+import CardChat from "components/Cards/CardChat.js";
+import ScrollableFeed from "react-scrollable-feed";
 
 export default function Team(props) {
   const [teamData, setTeamData] = React.useState(null);
@@ -77,6 +80,33 @@ export default function Team(props) {
       />
     );
   }
+  let toshowchat = null;
+  if (teamData) {
+    toshowchat = (
+      <div style={{ height: "20rem" }}>
+        <ReactScrollableFeed>
+          {teamData.teacherChat.map(function (msg, ind) {
+            return (
+              <div className='flex flex-wrap'>
+                <div className='w-auto lg:w-11/12 xl:w-11/12 px-4 mb-5 '>
+                  <CardChat
+                    statSubtitle={msg.author.name}
+                    statTitle={msg.text}
+                    statArrow='up'
+                    statPercent={msg.time}
+                    statPercentColor='text-emerald-200'
+                    statDescription='Members'
+                    statIconName='far fa-calendar-minus'
+                    statIconColor='bg-red-500'
+                  />
+                </div>
+              </div>
+            );
+          })}
+        </ReactScrollableFeed>
+      </div>
+    );
+  }
   return (
     <>
       <TeacherSidebar />
@@ -87,7 +117,7 @@ export default function Team(props) {
           <div className='container mx-auto px-4'>
             <div>
               <div className='flex flex-wrap'>
-                <div className='w-full lg:w-11/12 xl:w-11/12 px-4 mb-5 '>
+                <div className='w-full lg:w-11/12 xl:w-12/12 px-4 mb-5 '>
                   {toshowteamcard}
                 </div>
               </div>
@@ -96,7 +126,7 @@ export default function Team(props) {
         </div>
         <div className='px-4 md:px-10 mx-auto w-full -m-24'>
           <div className='flex flex-wrap'>
-            <div className='w-full xl:w-12/12 mb-12 xl:mb-0 px-4'>
+            <div className='w-full xl:w-8/12 mb-12 xl:mb-0 px-4'>
               <div className='relative flex flex-col h-full min-w-0 break-words w-full mb-6 shadow-lg rounded bg-blueGray-700'>
                 <div className='rounded-t mb-0 px-4 py-3 bg-transparent'>
                   <div className='flex flex-wrap items-center'>
@@ -107,28 +137,30 @@ export default function Team(props) {
                       </h2>
                       <div className='w-full'>
                         <hr className='my-4 md:min-w-full' />
-                        <input
-                          className='w-full pr-10 pl-4 py-2 border rounded-lg text-gray-700 outline-none focus:border-emerald-500'
-                          placeholder='enter message'
-                          value={teacherChat.message}
-                          onChange={handleTeacherChat}
-                        />
-                        <button
-                          className='text-white w-full bg-emerald-500 rounded mt-3 p-2'
-                          onClick={(event) => {
-                            event.preventDefault();
-                            submitTeacherChat();
-                            setTeacherChat({
-                              message: "",
-                            });
-                          }}
-                        >
-                          SEND
-                        </button>
+                        {toshowchat}
+                        <div className='mt-4'>
+                          <input
+                            className='w-full pr-10 pl-4 py-2 border rounded-lg text-gray-700 outline-none focus:border-emerald-500'
+                            placeholder='enter message'
+                            value={teacherChat.message}
+                            onChange={handleTeacherChat}
+                          />
+                          <button
+                            className='text-white w-full bg-emerald-500 rounded mt-3 p-2'
+                            onClick={(event) => {
+                              event.preventDefault();
+                              submitTeacherChat();
+                              setTeacherChat({
+                                message: "",
+                              });
+                            }}
+                          >
+                            SEND
+                          </button>
+                        </div>
                       </div>
                     </div>
                   </div>
-                  <div className='p-4 text-white flex-auto'></div>
                 </div>
               </div>
             </div>

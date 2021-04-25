@@ -4,8 +4,6 @@ import { Link } from "react-router-dom";
 
 // components
 
-import PagesDropdown from "components/Dropdowns/PagesDropdown.js";
-
 export default function Navbar(props) {
   const [navbarOpen, setNavbarOpen] = React.useState(false);
   return (
@@ -34,11 +32,7 @@ export default function Navbar(props) {
             }
             id='example-navbar-warning'
           >
-            <ul className='flex flex-col lg:flex-row list-none lg:ml-auto'>
-              <li className='flex items-center'>
-                <PagesDropdown />
-              </li>
-            </ul>
+            <ul className='flex flex-col lg:flex-row list-none lg:ml-auto'></ul>
           </div>
         </div>
       </nav>

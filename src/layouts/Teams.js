@@ -1,7 +1,7 @@
 import React from "react";
-import {  Link, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import axios from "axios";
-
+import ReactScrollableFeed from "react-scrollable-feed";
 // components
 
 import ClassroomNavbar from "components/Navbars/TeacherClassroomNavbar.js";
@@ -9,6 +9,8 @@ import TeamSidebar from "components/Sidebar/TeamSidebar.js";
 
 // views
 import CardStats from "components/Cards/CardStats.js";
+import CardChat from "components/Cards/CardChat.js";
+import CardPortal from "components/Cards/CardPortal.js";
 
 export default function Admin() {
   const [teamData, setTeamData] = React.useState(null);
@@ -23,6 +25,7 @@ export default function Admin() {
   });
   const [studentChatData, setStudentChatData] = React.useState({});
   const [teacherChatData, setTeacherChatData] = React.useState({});
+  const [selection, setSelection] = React.useState(1);
   const { pos } = useParams();
   React.useEffect(() => {
     axios({
@@ -86,7 +89,6 @@ export default function Admin() {
     setStudentChat({
       message: event.target.value,
     });
-    // setChat(data);
   }
 
   function submitStudentChat() {
@@ -132,296 +134,299 @@ export default function Admin() {
 
   let toshowteam = null;
   console.log(type, "type");
-  if (type === 2 && teamData) {
-    toshowteam = teamData.map((currentTeam, index) => (
-      <Link to={"/classroom/" + pos + "/teams/" + index}>
-        <div className='flex flex-wrap'>
-          <div className='w-full lg:w-12/12 xl:w-12/12 px-4 mb-5 '>
-            <CardStats
-              statSubtitle={currentTeam.members.reduce(function (
-                total,
-                currentMember
-              ) {
-                return total + currentMember.firstName + " ";
-              },
-              "")}
-              statTitle={currentTeam.teamName}
-              statArrow='up'
-              statPercent={currentTeam.members.length}
-              statPercentColor='text-emerald-200'
-              statDescription='Members'
-              statIconName='far fa-calendar-minus'
-              statIconColor='bg-red-500'
-            />
-          </div>
-
-          {/* <div className='relative flex flex-col min-w-0 break-words bg-white w-full mb-8 shadow-lg rounded-lg'>
-            <div className='px-4 py-5 flex-auto'>
-              <div className='text-white p-3 text-center inline-flex items-center justify-center w-12 h-12 mb-5 shadow-lg rounded-full bg-red-400'>
-                <i class='fas fa-users'></i>
+  if (type === 1 && teamData) {
+    toshowteam = (
+      <>
+        <TeamSidebar />
+        <div className='relative md:ml-64 bg-blueGray-100'>
+          <ClassroomNavbar />
+          <div className='relative bg-lightBlue-600 md:pt-32 pb-32 pt-12'>
+            <div className='container mx-auto px-4'>
+              <div>
+                <div className='flex flex-wrap'>
+                  <div className='w-full lg:w-3/12 xl:w-3/12 px-4 mb-5 '>
+                    <CardStats
+                      statSubtitle={teamData.members.reduce(function (
+                        total,
+                        currentMember
+                      ) {
+                        return total + currentMember.firstName + " ";
+                      },
+                      "")}
+                      statTitle={teamData.teamName}
+                      statArrow='up'
+                      statPercent={teamData.members.length}
+                      statPercentColor='text-emerald-200'
+                      statDescription='Members'
+                      statIconName='far fa-calendar-minus'
+                      statIconColor='bg-red-500'
+                    />
+                  </div>
+                  <div className='w-full xl:w-4/12 px-4'></div>
+                </div>
               </div>
-              <h6 className='text-xl font-semibold'>{currentTeam.teamName}</h6>
-              <p className='mt-2 mb-4 text-blueGray-500'>
-                {currentTeam.members.map(
-                  (currentMember, index) =>
-                    currentMember.firstName + " " + currentMember.lastName
-                )}
-              </p>
             </div>
           </div>
-        </div> */}
         </div>
-      </Link>
-    ));
+
+        {selection === 1 ? (
+          <div className='px-4 md:px-10 mx-auto w-8/12 -m-24'>
+            <div className='flex flex-wrap justify-center'>
+              <div className='w-full xl:w-6/12 mb-12 xl:mb-0 px-4'>
+                <div className='relative flex flex-col h-full min-w-0 break-words w-full mb-6 shadow-lg rounded bg-blueGray-700'>
+                  <div className='rounded-t mb-0 px-4 py-3 bg-transparent'>
+                    <div className='flex flex-wrap items-center'>
+                      <div className='relative w-full max-w-full flex-grow flex-1'>
+                        <button
+                          className='text-blueGray-100 mb-1 text-xs font-semibold focus:outline-none py-1 rounded'
+                          onClick={() => setSelection(2)}
+                        >
+                          Chat with Teacher
+                        </button>
+                        <h2 className='text-white text-xl font-semibold'>
+                          Chat with Team
+                        </h2>
+                        <div className='w-full'>
+                          <hr className='my-4 md:min-w-full' />
+                          <div style={{ height: "20rem" }}>
+                            <ReactScrollableFeed>
+                              {teamData.teamChat.map(function (msg, ind) {
+                                return (
+                                  <div className='flex flex-wrap'>
+                                    <div className='w-auto lg:w-11/12 xl:w-11/12 px-4 mb-5 '>
+                                      <CardChat
+                                        statSubtitle={msg.author.name}
+                                        statTitle={msg.text}
+                                        statArrow='up'
+                                        statPercent={msg.time}
+                                        statPercentColor='text-emerald-200'
+                                        statDescription='Members'
+                                        statIconName='far fa-calendar-minus'
+                                        statIconColor='bg-red-500'
+                                      />
+                                    </div>
+                                  </div>
+                                );
+                              })}
+                            </ReactScrollableFeed>
+                          </div>
+                          <div className='mt-4'>
+                            <input
+                              className='w-full pr-10 pl-4 py-2 border rounded-lg text-gray-700 outline-none focus:border-emerald-500'
+                              placeholder='enter message'
+                              value={studentChat.message}
+                              onChange={handleStudentChat}
+                            />
+                            <button
+                              className='text-white w-full bg-emerald-500 rounded mt-3 p-2'
+                              onClick={(event) => {
+                                event.preventDefault();
+                                submitStudentChat();
+                                setStudentChat({
+                                  message: "",
+                                });
+                              }}
+                            >
+                              SEND
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        ) : (
+          <>
+            <div className='px-4 md:px-10 mx-auto w-8/12 -m-24'>
+              <div className='flex flex-wrap justify-center'>
+                <div className='w-full xl:w-6/12 mb-12 xl:mb-0 px-4'>
+                  <div className='relative flex flex-col h-full min-w-0 break-words w-full mb-6 shadow-lg rounded bg-blueGray-700'>
+                    <div className='rounded-t mb-0 px-4 py-3 bg-transparent'>
+                      <div className='flex flex-wrap items-center'>
+                        <div className='relative w-full max-w-full flex-grow flex-1'>
+                          <button
+                            className='text-blueGray-100 mb-1 text-xs font-semibold focus:outline-none py-1 rounded'
+                            onClick={() => setSelection(1)}
+                          >
+                            Chat with Team
+                          </button>
+                          <h2 className='text-white text-xl font-semibold'>
+                            Chat with Teacher
+                          </h2>
+                          <div className='w-full'>
+                            <hr className='my-4 md:min-w-full' />
+                            <div style={{ height: "20rem" }}>
+                              <ReactScrollableFeed>
+                                {teamData.teacherChat.map(function (msg, ind) {
+                                  return (
+                                    <div className='flex flex-wrap'>
+                                      <div className='w-auto lg:w-11/12 xl:w-11/12 px-4 mb-5 '>
+                                        <CardChat
+                                          statSubtitle={msg.author.name}
+                                          statTitle={msg.text}
+                                          statArrow='up'
+                                          statPercent={msg.time}
+                                          statPercentColor='text-emerald-200'
+                                          statDescription='Members'
+                                          statIconName='far fa-calendar-minus'
+                                          statIconColor='bg-red-500'
+                                        />
+                                      </div>
+                                    </div>
+                                  );
+                                })}
+                              </ReactScrollableFeed>
+                            </div>
+                            <div className='mt-4'>
+                              <input
+                                className='w-full pr-10 pl-4 py-2 border rounded-lg text-gray-700 outline-none focus:border-emerald-500'
+                                placeholder='enter message'
+                                value={teacherChat.message}
+                                onChange={handleTeacherChat}
+                              />
+                              <button
+                                className='text-white w-full bg-emerald-500 rounded mt-3 p-2'
+                                onClick={(event) => {
+                                  event.preventDefault();
+                                  submitTeacherChat();
+                                  setTeacherChat({
+                                    message: "",
+                                  });
+                                }}
+                              >
+                                SEND
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </>
+        )}
+      </>
+    );
+  }
+  if (type === 1 && !teamData) {
+    toshowteam = (
+      <>
+        <TeamSidebar />
+        <div className='relative md:ml-64 bg-blueGray-100'>
+          <ClassroomNavbar />
+          <div className='relative bg-lightBlue-600 md:pt-32 pb-32 pt-12'>
+            <div className='container mx-auto px-4'>
+              <div>
+                <div className='flex flex-wrap'>
+                  <div className='lg:pt-12 pt-6 w-full md:w-4/12 px-4 text-center'>
+                    <div className='relative flex flex-col min-w-0 break-words bg-white w-full mb-8 shadow-lg rounded-lg'>
+                      <div className='px-4 py-5 flex-auto'>
+                        <div className='text-white p-3 text-center inline-flex items-center justify-center w-12 h-12 mb-5 shadow-lg rounded-full bg-red-400'>
+                          <i className='fas fa-award'></i>
+                        </div>
+                        <h6 className='text-xl font-semibold'>Create Team</h6>
+                        <form class='w-full mt-3'>
+                          <input
+                            type='text'
+                            placeholder='Team Name'
+                            className='w-full pr-10 pl-4 py-2 border rounded-lg text-gray-700 outline-none focus:border-emerald-500'
+                            name='teamName'
+                            value={teamName}
+                            onChange={handleChange}
+                          />
+                          <button
+                            type='submit'
+                            className='text-white w-full bg-emerald-500 rounded mt-3 p-2'
+                            onClick={handleCreateTeam}
+                          >
+                            CREATE
+                          </button>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                  <div className='lg:pt-12 pt-6 w-full md:w-4/12 px-4 text-center'>
+                    <div className='relative flex flex-col min-w-0 break-words bg-white w-full mb-8 shadow-lg rounded-lg'>
+                      <div className='px-4 py-5 flex-auto'>
+                        <div className='text-white p-3 text-center inline-flex items-center justify-center w-12 h-12 mb-5 shadow-lg rounded-full bg-red-400'>
+                          <i className='fas fa-award'></i>
+                        </div>
+                        <h6 className='text-xl font-semibold'>Join Team</h6>
+                        <form class='w-full mt-3'>
+                          <input
+                            type='text'
+                            placeholder='Team Code'
+                            className='w-full pr-10 pl-4 py-2 border rounded-lg text-gray-700 outline-none focus:border-emerald-500'
+                            name='teamCode'
+                            value={teamCode}
+                            onChange={handleChange}
+                          />
+                          <button
+                            type='submit'
+                            className='text-white w-full bg-emerald-500 rounded mt-3 p-2'
+                            onClick={handleJoinTeam}
+                          >
+                            JOIN
+                          </button>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </>
+    );
+  }
+  if (type === 2 && teamData) {
+    toshowteam = (
+      <>
+        <TeamSidebar />
+        <div className='relative md:ml-64 bg-blueGray-100'>
+          <ClassroomNavbar />
+
+          <div className='relative bg-lightBlue-600 md:pt-32 pb-32 pt-12'>
+            <div className='container mx-auto px-4'>
+              <div>
+                {teamData.map((currentTeam, index) => (
+                  <Link to={"/classroom/" + pos + "/teams/" + index}>
+                    <div className='flex flex-wrap'>
+                      <div className='w-full lg:w-12/12 xl:w-12/12 px-4 mb-5 '>
+                        <CardStats
+                          statSubtitle={currentTeam.members.reduce(function (
+                            total,
+                            currentMember
+                          ) {
+                            return total + currentMember.firstName + " ";
+                          },
+                          "")}
+                          statTitle={currentTeam.teamName}
+                          statArrow='up'
+                          statPercent={currentTeam.members.length}
+                          statPercentColor='text-emerald-200'
+                          statDescription='Members'
+                          statIconName='far fa-calendar-minus'
+                          statIconColor='bg-red-500'
+                        />
+                      </div>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </>
+    );
   }
 
   console.log(teamData, "teamdata");
-  return (
-    <>
-      {type === 1 ? (
-        <>
-          <TeamSidebar />
-          <div className='relative md:ml-64 bg-blueGray-100'>
-            <ClassroomNavbar />
-            <div className='relative bg-lightBlue-600 md:pt-32 pb-32 pt-12'>
-              <div className='container mx-auto px-4'>
-                <div>
-                  <div className='flex flex-wrap'>
-                    {teamData ? (
-                      <>
-                        <div className='w-full lg:w-11/12 xl:w-11/12 px-4 mb-5 '>
-                          <CardStats
-                            statSubtitle={teamData.members.reduce(function (
-                              total,
-                              currentMember
-                            ) {
-                              return total + currentMember.firstName + " ";
-                            },
-                            "")}
-                            statTitle={teamData.teamName}
-                            statArrow='up'
-                            statPercent={teamData.members.length}
-                            statPercentColor='text-emerald-200'
-                            statDescription='Members'
-                            statIconName='far fa-calendar-minus'
-                            statIconColor='bg-red-500'
-                          />
-                        </div>
-                        <>
-                          <div className='px-4 md:px-10 mx-auto w-full -m-12'>
-                            <div className='flex flex-wrap'>
-                              <div className='w-full xl:w-12/12 mb-12 xl:mb-0 px-4'>
-                                <div className='relative flex flex-col h-full min-w-0 break-words w-full mb-6 shadow-lg rounded bg-blueGray-700'>
-                                  <div className='rounded-t mb-0 px-4 py-3 bg-transparent'>
-                                    <div className='flex flex-wrap items-center'>
-                                      <div className='relative w-full max-w-full flex-grow flex-1'>
-                                        {/* <h6 className='uppercase text-blueGray-100 mb-1 text-xs font-semibold'></h6> */}
-                                        <h2 className='text-white text-xl font-semibold'>
-                                          Chat with Team
-                                        </h2>
-                                        <div className='w-full'>
-                                          <hr className='my-4 md:min-w-full' />
-                                          <input
-                                            className='w-full pr-10 pl-4 py-2 border rounded-lg text-gray-700 outline-none focus:border-emerald-500'
-                                            placeholder='enter message'
-                                            value={teacherChat.message}
-                                            onChange={handleTeacherChat}
-                                          />
-                                          <button
-                                            className='text-white w-full bg-emerald-500 rounded mt-3 p-2'
-                                            onClick={(event) => {
-                                              event.preventDefault();
-                                              submitTeacherChat();
-                                              setTeacherChat({
-                                                message: "",
-                                              });
-                                            }}
-                                          >
-                                            SEND
-                                          </button>
-                                        </div>
-                                      </div>
-                                    </div>
-                                    <div className='p-4 text-white flex-auto'></div>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-
-                          <div className='flex flex-wrap'>
-                            <div className='w-full xl:w-8/12 mb-12 xl:mb-0 px-4'>
-                              <div className='relative flex flex-col h-full min-w-0 break-words w-full mb-6 shadow-lg rounded bg-blueGray-700'>
-                                <div className='rounded-t mb-0 px-4 py-3 bg-transparent'>
-                                  <div className='flex flex-wrap items-center'>
-                                    <div className='relative w-full max-w-full flex-grow flex-1'>
-                                      <h6 className='uppercase text-blueGray-100 mb-1 text-xs font-semibold'>
-                                        <button>Team Chat</button>
-                                      </h6>
-                                      <h2 className='text-white text-xl font-semibold'>
-                                        Sales value
-                                      </h2>
-
-                                      <input
-                                        placeholder='enter message'
-                                        value={studentChat.message}
-                                        onChange={handleStudentChat}
-                                      />
-                                      <button
-                                        className='text-white'
-                                        onClick={(event) => {
-                                          event.preventDefault();
-                                          submitStudentChat();
-                                          setStudentChat({
-                                            message: "",
-                                          });
-                                        }}
-                                      >
-                                        POST
-                                      </button>
-                                      <input
-                                        placeholder='enter message'
-                                        value={teacherChat.message}
-                                        onChange={handleTeacherChat}
-                                      />
-                                      <button
-                                        className='text-white'
-                                        onClick={(event) => {
-                                          event.preventDefault();
-                                          submitTeacherChat();
-                                          setTeacherChat({
-                                            message: "",
-                                          });
-                                        }}
-                                      >
-                                        POST
-                                      </button>
-                                    </div>
-                                  </div>
-                                  <div className='p-4 text-white flex-auto'></div>
-                                </div>
-                              </div>
-                            </div>
-                            <div className='w-full xl:w-4/12 px-4'>
-                              <div className='relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded'>
-                                <div className='rounded-t mb-0 px-4 py-3 bg-transparent'>
-                                  <div className='flex flex-wrap items-center'>
-                                    <div className='relative w-full max-w-full flex-grow flex-1'>
-                                      <h6 className='uppercase text-blueGray-400 mb-1 text-xs font-semibold'>
-                                        Performance
-                                      </h6>
-                                      <h2 className='text-blueGray-700 text-xl font-semibold'>
-                                        Total orders
-                                      </h2>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </>
-                      </>
-                    ) : (
-                      <>
-                        <div className='lg:pt-12 pt-6 w-full md:w-4/12 px-4 text-center'>
-                          <div className='relative flex flex-col min-w-0 break-words bg-white w-full mb-8 shadow-lg rounded-lg'>
-                            <div className='px-4 py-5 flex-auto'>
-                              <div className='text-white p-3 text-center inline-flex items-center justify-center w-12 h-12 mb-5 shadow-lg rounded-full bg-red-400'>
-                                <i className='fas fa-award'></i>
-                              </div>
-                              <h6 className='text-xl font-semibold'>
-                                Create Team
-                              </h6>
-                              <form class='w-full mt-3'>
-                                <input
-                                  type='text'
-                                  placeholder='Team Name'
-                                  className='w-full pr-10 pl-4 py-2 border rounded-lg text-gray-700 outline-none focus:border-emerald-500'
-                                  name='teamName'
-                                  value={teamName}
-                                  onChange={handleChange}
-                                />
-                                <button
-                                  type='submit'
-                                  className='text-white w-full bg-emerald-500 rounded mt-3 p-2'
-                                  onClick={handleCreateTeam}
-                                >
-                                  CREATE
-                                </button>
-                              </form>
-                            </div>
-                          </div>
-                        </div>
-                        <div className='lg:pt-12 pt-6 w-full md:w-4/12 px-4 text-center'>
-                          <div className='relative flex flex-col min-w-0 break-words bg-white w-full mb-8 shadow-lg rounded-lg'>
-                            <div className='px-4 py-5 flex-auto'>
-                              <div className='text-white p-3 text-center inline-flex items-center justify-center w-12 h-12 mb-5 shadow-lg rounded-full bg-red-400'>
-                                <i className='fas fa-award'></i>
-                              </div>
-                              <h6 className='text-xl font-semibold'>
-                                Join Team
-                              </h6>
-                              <form class='w-full mt-3'>
-                                <input
-                                  type='text'
-                                  placeholder='Team Code'
-                                  className='w-full pr-10 pl-4 py-2 border rounded-lg text-gray-700 outline-none focus:border-emerald-500'
-                                  name='teamCode'
-                                  value={teamCode}
-                                  onChange={handleChange}
-                                />
-                                <button
-                                  type='submit'
-                                  className='text-white w-full bg-emerald-500 rounded mt-3 p-2'
-                                  onClick={handleJoinTeam}
-                                >
-                                  JOIN
-                                </button>
-                              </form>
-                            </div>
-                          </div>
-                        </div>
-                      </>
-                    )}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </>
-      ) : (
-        <>
-          <TeamSidebar />
-          <div className='relative md:ml-64 bg-blueGray-100'>
-            <ClassroomNavbar />
-
-            <div className='relative bg-lightBlue-600 md:pt-32 pb-32 pt-12'>
-              <div className='container mx-auto px-4'>
-                <div>
-                  <div className='flex flex-wrap'>
-                    {toshowteam}
-                    {/* <div className="lg:pt-12 pt-6 w-full md:w-4/12 px-4 text-center">
-                      <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-8 shadow-lg rounded-lg">
-                        <div className="px-4 py-5 flex-auto">
-                          <div className="text-white p-3 text-center inline-flex items-center justify-center w-12 h-12 mb-5 shadow-lg rounded-full bg-red-400">
-                            <i className="fas fa-award"></i>
-                          </div>
-                          <h6 className="text-xl font-semibold">Enrolled</h6>
-                          <p className="mt-2 mb-4 text-blueGray-500">
-                            Divide details about your product or agency work
-                            into parts. A paragraph describing a feature will be
-                            enough.
-                          </p>
-                        </div>
-                      </div>
-                    </div> */}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </>
-      )}
-    </>
-  );
+  return <>{toshowteam}</>;
 }
